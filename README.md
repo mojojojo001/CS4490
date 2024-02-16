@@ -1,18 +1,147 @@
-# Assignment 2
+# Curriculum App
 
-## Description
+*This project is currently in beta and hosted at: [studytracker.tech](https://studytracker.tech). See the [version 1 roadmap here](https://github.com/faraday-academy/curriculum-app/projects/1).*
 
-In Assignment #3 we implemented the rdt 2.2 protocol from the course textbook which allowed us to use UDP for relaible data transfers. Unfortunately, rdt 2.2 only accounted for corrupt packets so we will need to build on our code from Assignment #3 and add a timer to account for lost packets.
-Summary
+This app allows users to create their own learning curriculum. They can then keep track of their progress, share it with friends, and make changes as they go along.
 
-We will once again have two applications (UDP_Client.py and UDP_Server.py) using the UDP protocol to communicate across a network that can corrupt or lose data packets. This means we have to create the reliable data transfer protocol (rdt 3.0) we saw in our textbook by adding a timer to our client application.
+To see the playlist where I livestream the building of this app, [click here](https://www.youtube.com/playlist?list=PLFBirL3MAv2-c8VpBJMvH8Hci975MLVU1).
 
-## UDP Client
-This app must connect to the UDP_Server app via UDP (127.0.0.1 but please choose any port number you wish) then send three separate packets containing the following information:
-NCC-1701
-NCC-1664
-NCC-1017
-When adding the timer to the Client.py application, the timeout value should be set to 9ms
+## Table of Contents
 
-## UDP Server
-This app will establish a UDP socket and listen for incoming connections from the client. When a connection is made the server will consume the data and follow the rdt 2.2 process as shown in chapter 3 of the course textbook.
+1. [Running Locally](#running-locally)
+1. [Tech Stack](#tech-stack)
+1. [Mockups](#mockups)
+1. [Design](#design)
+1. [Routes](#routes)
+1. [Schema](#schema)
+1. [API](#api)
+1. [MVP Features](#mvp-features)
+1. [Version 1 Features](#version-1-features)
+
+## Running Locally
+
+### Run the Front-End
+
+1. Clone this repo
+1. `cd curriculum-front`
+1. `npm i`
+1. `npm run serve`
+
+### Run the Back-End
+
+1. Open another terminal tab or window
+1. `cd curriculum-back`
+1. `npm run setup`
+1. `npm start`
+
+## Tech Stack
+
+1. Vue.js/Vue Router/Vuex
+1. Vuetify
+1. Node.js/Express.js
+1. MongoDB/Mongoose
+1. Digital Ocean (hosting)
+
+## Mockups
+
+<p align="center">
+  <img src="mockups/home_page.png" alt="Home Page Mockup">
+</p>
+
+<p align="center">
+  <img src="mockups/user_dashboard.png" alt="User Dashboard Mockup">
+</p>
+
+<p align="center">
+  <img src="mockups/create_update_curriculum.png" alt="Create or Update Page Mockup">
+</p>
+
+<p align="center">
+  <img src="mockups/display_curriculum.png" alt="Display Curriculum Page Mockup">
+</p>
+
+## Design
+
+Color Palette:
+<img src="mockups/color_palette.png" alt="color palete for application">
+710627 - EA5455 - FAA275 - F5E4C3 - 34A7B2
+
+## Routes
+
+* / --> Home Page/Landing Page
+* curricula --> shows all curricula
+* curricula/create --> shows form to create
+* curricula/id --> shows single curriculum
+* curricula/id/update --> update single curriculum
+
+## Schema
+
+**Curriculum**
+
+* id: UUID (pk)
+* name: string
+* goal: string
+* description: string
+* sections: [object]
+    * name: string
+    * resources: [object]
+        * isCompleted: boolean (default: false)
+        * name: string
+        * url: string
+    * projects:  [object]
+        * isCompleted: boolean (default: false)
+        * name: string
+        * url: string
+* createdBy: Mongo object id (userId, foreign key)
+* createdAt: timestamp
+* updatedAt: timestamp
+
+**User**
+
+* username: String
+* email: String
+* password: String (hashed password)
+* isVerified: Boolean
+* createdAt: timestamp
+* updatedAt: timestamp
+
+**Verification**
+
+*This is just to store and expire verification codes that are sent to user by email.*
+
+* userId: Mongo object id (userId, foreign key)
+* code: Number
+
+## API
+
+**Prefix:** `/api/v1`
+
+**Endpoints:**
+
+`/curricula`
+
+* get
+* post
+
+`/curricula/:id`
+
+* get
+* patch
+* delete
+
+`/count`
+
+*get the ratio of completed tasks for each curriculum*
+
+* get
+
+## MVP Features
+
+1. Home Page with list of curriculums
+1. Form Page to create/update a curriculum
+1. User can delete a curriculum
+
+## Version 1 Features
+
+1. Users can log in and save their curricula
+1. Users can fork other users curricula
