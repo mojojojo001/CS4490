@@ -1,7 +1,6 @@
 FROM node:lts-alpine
 WORKDIR /usr/src/app
 COPY curriculum-back/package*.json ./
-RUN apk update && apk add npm
 RUN npm install
 COPY curriculum-back ./
 RUN ls -l
