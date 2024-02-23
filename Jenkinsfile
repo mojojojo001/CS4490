@@ -2,9 +2,21 @@ pipeline {
   agent any
   stages {
     stage('Build') {
-      steps {
-        sh '''sh \'gcc -o hello main.c\'
+      parallel {
+        stage('Build') {
+          steps {
+            sh '''sh \'gcc -o hello main.c\'
 '''
+          }
+        }
+
+        stage('log') {
+          steps {
+            sh '''sh \'ls -la\'
+'''
+          }
+        }
+
       }
     }
 
