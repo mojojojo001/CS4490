@@ -12,7 +12,7 @@ pipeline {
 
         stage('log') {
           steps {
-            sh '''sh \'ls\'
+            sh '''sh \'ls -la
 '''
           }
         }
