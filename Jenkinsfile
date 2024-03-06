@@ -1,10 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('log') {
+    stage('build') {
       steps {
-        sh '''sh \'ls -la
-'''
+        sh 'sh \'gcc -o hello main.c\''
       }
     }
 
