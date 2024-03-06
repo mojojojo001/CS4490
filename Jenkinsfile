@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh '\'gcc -o hello main.c\''
+        sh 'gcc -o hello main.c'
       }
     }
 
