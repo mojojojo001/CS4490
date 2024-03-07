@@ -15,10 +15,8 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        bat 'docker pull my-image-name:latest'
-        bat 'docker stop your_container_name || true'
-        bat 'docker rm your_container_name || true'
-        bat 'docker run -d --name your_container_name -p 80:80 my-image-name:latest'
+                bat "docker run -d --name your_container_name -p 80:80 my-image-name:latest"
+
       }
     }
 
