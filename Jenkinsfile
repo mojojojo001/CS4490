@@ -1,5 +1,10 @@
 pipeline {
   agent any
+  environment {
+    IMAGE_NAME = 'my-image-name'
+    IMAGE_TAG = 'latest'
+    CONTAINER_NAME = "my-container-${BUILD_NUMBER}" // Use unique container name based on Jenkins build number
+  }
   stages {
     stage('build') {
       steps {
@@ -9,7 +14,7 @@ pipeline {
 
     stage('Docker Build') {
       steps {
-        bat 'docker build -t my-image-name .'
+        bat "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
       }
     }
 
@@ -26,7 +31,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        bat 'docker run -d --name your_container_name -p 80:80 my-image-name:latest'
+        bat "docker run -d --name ${CONTAINER_NAME} -p 80:80 ${IMAGE_NAME}:${IMAGE_TAG}"
       }
     }
 
