@@ -15,8 +15,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-                bat "docker run -d --name your_container_name -p 80:80 my-image-name:latest"
-
+        bat 'docker run -d --name your_container_name -p 80:80 my-image-name:latest'
       }
     }
 
