@@ -32,17 +32,17 @@ pipeline {
       }
     }
 
-    stage('Security Scan with OWASP ZAP') {
-      steps {
+  stage('Security Scan with OWASP ZAP') {
+    steps {
         script {
-          // Pull and run OWASP ZAP Docker container
-          docker.image('owasp/zap2docker-stable').run("-t -d -p 8090:8090 -p 9090:9090")
-          
-          // Perform ZAP Spidering and Active Scan
-          sh "docker run --rm -v $(pwd):/zap/wrk/:rw owasp/zap2docker-stable zap-baseline.py -t http://localhost:80 -r ${ZAP_REPORT}"
+            // Pull and run OWASP ZAP Docker container
+            docker.image('owasp/zap2docker-stable').run("-t -d -p 8090:8090 -p 9090:9090")
+
+            // Perform ZAP Spidering and Active Scan against localhost
+            sh "docker run --rm -v $(pwd):/zap/wrk/:rw owasp/zap2docker-stable zap-baseline.py -t http://localhost:80 -r ${ZAP_REPORT}"
         }
-      }
     }
+}
 
     stage('Deploy') {
       steps {
