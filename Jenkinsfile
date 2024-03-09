@@ -51,10 +51,10 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            // Archive ZAP report as a build artifact
-            archiveArtifacts artifacts: "${ZAP_REPORT}", onlyIfSuccessful: true
-        }
-    }
+    // post {
+    //     always {
+    //         // Archive ZAP report as a build artifact
+    //         archiveArtifacts artifacts: "${ZAP_REPORT}", onlyIfSuccessful: true
+    //     }
+    // }
 }
