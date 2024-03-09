@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script {
                     // Run OWASP ZAP baseline scan against example.com
-                    bat "docker run -v %cd%:/zap/wrk/:rw owasp/zap2docker-stable zap-baseline.py -t http://example.com -r ${ZAP_REPORT}"
+                    bat "docker run -v %cd%:/zap/wrk/:rw owasp/zap2docker-stable zap-baseline.py -t http://localhost:8080 -r ${ZAP_REPORT}"
                 }
             }
         }
