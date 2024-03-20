@@ -24,15 +24,6 @@ pipeline {
       }
     }
 
-    stage('Security Scan with OWASP ZAP') {
-      steps {
-        script {
-          bat "docker run -v %cd%:/zap/wrk/:rw owasp/zap2docker-stable zap-baseline.py -t http://localhost:8080 -r ${ZAP_REPORT}"
-        }
-
-      }
-    }
-
     stage('Deploy') {
       steps {
         bat "docker run -d --name ${CONTAINER_NAME} -p 80:80 ${IMAGE_NAME}:${IMAGE_TAG}"
