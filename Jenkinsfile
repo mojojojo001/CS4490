@@ -37,10 +37,4 @@ pipeline {
     CONTAINER_NAME = "my-container-${BUILD_NUMBER}"
     ZAP_REPORT = 'zap-report.html'
   }
-  post {
-    always {
-      archiveArtifacts(artifacts: "${ZAP_REPORT}", onlyIfSuccessful: true)
-    }
-
-  }
 }
