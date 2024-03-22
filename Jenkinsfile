@@ -15,12 +15,24 @@ pipeline {
 
     stage('OWASP Dependency-Check Vulnerabilities') {
       steps {
-        dependencyCheck(additionalArguments: ''' 
+        script {
+          // Perform dependency check
+          dependencyCheck(additionalArguments: ''' 
                         -o \'./\'
                         -s \'./\'
                         -f \'ALL\' 
                         --prettyPrint''', odcInstallation: 'dp-Check')
-        dependencyCheckPublisher(pattern: 'dependency-check-report.xml')
+          
+          // Read the dependency-check report
+          def report = readFile('dependency-check-report.xml')
+
+          // Parse the report and perform checks, for example:
+          if (report.contains('high')) {
+            error('High risk vulnerabilities found in dependencies')
+          } else {
+            echo 'No high risk vulnerabilities found'
+          }
+        }
       }
     }
 
@@ -29,12 +41,10 @@ pipeline {
         bat "docker run -d --name ${CONTAINER_NAME} -p 80:80 ${IMAGE_NAME}:${IMAGE_TAG}"
       }
     }
-
   }
   environment {
     IMAGE_NAME = 'my-image-name'
     IMAGE_TAG = 'latest'
     CONTAINER_NAME = "my-container-${BUILD_NUMBER}"
-    ZAP_REPORT = 'zap-report.html'
   }
 }
