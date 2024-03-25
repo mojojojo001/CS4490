@@ -15,12 +15,10 @@ WORKDIR /go/src/app
 COPY . .
 
 RUN go get -v -u github.com/hyperledger/fabric-sdk-go
+RUN go get -v -u github.com/stretchr/testify/assert
 
-# Create mychaincode directory if it doesn't exist
-RUN mkdir -p ./mychaincode
-
-# Debugging: Check contents of mychaincode directory
-RUN ls -l ./mychaincode
+# For BDD
+RUN go get github.com/cucumber/godog/cmd/godog  # Update this line
 
 RUN mkdir -p $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
 RUN cp -r ./mychaincode/* $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
