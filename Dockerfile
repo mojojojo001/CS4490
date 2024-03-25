@@ -15,10 +15,9 @@ WORKDIR /go/src/app
 COPY . .
 
 RUN go get -v -u github.com/hyperledger/fabric-sdk-go
-# RUN go get -v -u github.com/stretchr/testify/assert
 
-# For BDD
-# RUN go get github.com/cucumber/godog/cmd/godog 
+# Debugging: Check contents of mychaincode directory
+RUN ls -l ./mychaincode
 
 RUN mkdir -p $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
 RUN cp -r ./mychaincode/* $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
