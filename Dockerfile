@@ -16,6 +16,9 @@ COPY . .
 
 RUN go get -v -u github.com/hyperledger/fabric-sdk-go
 
+# Create mychaincode directory if it doesn't exist
+RUN mkdir -p ./mychaincode
+
 # Debugging: Check contents of mychaincode directory
 RUN ls -l ./mychaincode
 
