@@ -18,7 +18,7 @@ RUN go get -v -u github.com/hyperledger/fabric-sdk-go
 RUN go get -v -u github.com/stretchr/testify/tree/master/assert
 
 # For BDD
-RUN go get github.com/DATA-DOG/godog/cmd/godog
+RUN go get github.com/cucumber/godog/cmd/godog
 
 RUN mkdir -p $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
 RUN cp -r ./mychaincode/* $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
