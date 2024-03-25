@@ -15,7 +15,7 @@ WORKDIR /go/src/app
 COPY . .
 
 RUN go get -v -u github.com/hyperledger/fabric-sdk-go
-RUN go get -v -u github.com/stretchr/testify/assert
+RUN go get -v -u github.com/stretchr/testify/tree/master/assert
 
 # For BDD
 RUN go get github.com/cucumber/godog/cmd/godog  # Update this line
