@@ -15,10 +15,9 @@ WORKDIR /go/src/app
 COPY . .
 
 RUN go get -v -u github.com/hyperledger/fabric-sdk-go
-RUN go get -v -u github.com/stretchr/testify/tree/master/assert
-
+RUN go get -v -u github.com/stretchr/testify/assert
 # For BDD
-RUN go get github.com/cucumber/godog/cmd/godog  # Update this line
+RUN go get github.com/cucumber/godog
 
 RUN mkdir -p $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
 RUN cp -r ./mychaincode/* $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
