@@ -14,14 +14,18 @@ WORKDIR /go/src/app
 
 COPY . .
 
-RUN go get -v -u github.com/hyperledger/fabric-sdk-go \
-    && go get -v -u github.com/stretchr/testify/assert \
-    && go get github.com/DATA-DOG/godog/cmd/godog \
-    && mkdir -p $GOPATH/src/gitlab.com/TheNeonProject/mychaincode \
-    && cp -r ./mychaincode/* $GOPATH/src/gitlab.com/TheNeonProject/mychaincode \
-    && apt-get update && apt-get install -y libltdl-dev \
-    && mkdir -p $GOPATH/src/github.com/hyperledger \
-    && git clone -b v1.2.0 https://github.com/hyperledger/fabric.git $GOPATH/src/github.com/hyperledger/fabric
+RUN go get -v -u github.com/hyperledger/fabric-sdk-go
+RUN go get -v -u github.com/stretchr/testify/assert
+
+# For BDD
+RUN go get github.com/DATA-DOG/godog/cmd/godog
+
+RUN mkdir -p $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
+RUN cp -r ./mychaincode/* $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
+
+RUN apt-get update && apt-get install -y libltdl-dev
+RUN mkdir -p $GOPATH/src/github.com/hyperledger
+RUN git clone -b v1.2.0 https://github.com/hyperledger/fabric.git $GOPATH/src/github.com/hyperledger/fabric
 
 WORKDIR $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
 
