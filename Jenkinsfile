@@ -50,7 +50,7 @@ pipeline {
           bat "${FABRIC_BIN}cryptogen generate --config=${FABRIC_BIN}/crypto-config.yaml"
 
           // Create channel artifacts
-          bat "${FABRIC_BIN}configtxgen -profile MyChannelProfile -outputCreateChannelTx ${FABRIC_BIN}/channel.tx -channelID mychannel"
+          bat "${FABRIC_BIN}configtxgen -profile MyChannelProfile -outputCreateChannelTx ./channel.tx -channelID mychannel"
 
           // Join peers to channel
           bat "${FABRIC_BIN}peer channel join -b ./channel.block"
