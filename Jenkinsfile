@@ -1,7 +1,13 @@
 pipeline {
   agent any
+  environment {
+    FABRIC_BIN = 'C:\\Users\\alabb\\fabric-samples\\bin\\' // Path to the directory containing Fabric binaries
+    IMAGE_NAME = 'my-image-name'
+    IMAGE_TAG = 'latest'
+    CONTAINER_NAME = "my-container-${BUILD_NUMBER}"
+  }
   stages {
-    stage('build') {
+    stage('Build') {
       steps {
         bat 'gcc -o hello main.c'
       }
@@ -36,15 +42,26 @@ pipeline {
       }
     }
 
+    stage('Deploy Fabric Network') {
+      steps {
+        // Add steps to set up your Fabric network
+        script {
+          // Generate crypto materials
+          bat "${FABRIC_BIN}cryptogen generate --config=./crypto-config.yaml"
+
+          // Create channel artifacts
+          bat "${FABRIC_BIN}configtxgen -profile MyChannelProfile -outputCreateChannelTx ./channel.tx -channelID mychannel"
+
+          // Join peers to channel
+          bat "${FABRIC_BIN}peer channel join -b ./channel.block"
+        }
+      }
+    }
+
     stage('Deploy') {
       steps {
         bat "docker run -d --name ${CONTAINER_NAME} -p 80:80 ${IMAGE_NAME}:${IMAGE_TAG}"
       }
     }
-  }
-  environment {
-    IMAGE_NAME = 'my-image-name'
-    IMAGE_TAG = 'latest'
-    CONTAINER_NAME = "my-container-${BUILD_NUMBER}"
   }
 }
