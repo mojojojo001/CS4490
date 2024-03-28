@@ -1,43 +1,14 @@
-# Stage 1: Build C program
-FROM gcc:latest AS c-builder
+# Use an official GCC image as a parent image
+FROM gcc:latest
 
+# Set the working directory in the container
 WORKDIR /app
 
+# Copy the current directory contents into the container at /app
 COPY . /app
 
+# Compile the C program
 RUN gcc -o my_program main.c
 
-# Stage 2: Build Go application
-FROM golang:1.10 AS go-builder
-
-WORKDIR /go/src/app
-
-COPY . .
-
-RUN go get -v -u github.com/hyperledger/fabric-sdk-go
-RUN go get -v -u github.com/stretchr/testify/assert
-# For BDD
-RUN go get github.com/cucumber/godog
-
-RUN mkdir -p $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
-RUN cp -r ./mychaincode/* $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
-
-RUN apt-get update && apt-get install -y libltdl-dev
-RUN mkdir -p $GOPATH/src/github.com/hyperledger
-RUN git clone -b v1.2.0 https://github.com/hyperledger/fabric.git $GOPATH/src/github.com/hyperledger/fabric
-
-WORKDIR $GOPATH/src/gitlab.com/TheNeonProject/mychaincode
-
-# Stage 3: Final image
-FROM ubuntu:latest
-
-COPY --from=c-builder /app/my_program /app/my_program
-
-COPY --from=go-builder /go/src/app /go/src/app
-
-RUN apt-get update \
-    && apt-get install -y libltdl-dev
-
-WORKDIR /go/src/app/mychaincode
-
-CMD ["go", "test", "-v", "."]
+# Run the compiled program when the container launches
+CMD ["./my_program"]
