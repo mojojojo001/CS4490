@@ -47,7 +47,7 @@ pipeline {
         // Add steps to set up your Fabric network
         script {
           // Generate crypto materials
-          bat "${FABRIC_BIN}cryptogen generate --config=./crypto-config.yaml"
+          bat "${FABRIC_BIN}cryptogen generate --config={FABRIC_BIN}/crypto-config.yaml"
 
           // Create channel artifacts
           bat "${FABRIC_BIN}configtxgen -profile MyChannelProfile -outputCreateChannelTx ./channel.tx -channelID mychannel"
